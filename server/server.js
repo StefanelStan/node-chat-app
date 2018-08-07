@@ -1,21 +1,30 @@
 const path = require('path');
-var express = require('express');
-const hbs = require('hbs');
+const http = require('http');
+const express = require('express');
+const socketIO = require('socket.io');
 
-const publicPath = path.join(__dirname, '../public');
-
-var app = express();
+const publicPath = path.join(__dirname, '../public/index.html');
 const port = process.env.PORT || 3000;
 
-app.use(express.static(publicPath));
+var app = express();
+var server = http.createServer(app);
 
-// hbs.registerPartials(publicPath);
-// app.set('view engine', 'hbs');
+var io = socketIO(server);
 
-// app.get('/', (request, response) =>{
-//     response.send
-// });
+app.get('/', (req, res) => {
+    res.sendFile(publicPath);
+  });
 
-app.listen(port, (err, success) =>{
+io.on('connection', (socket) =>{
+    console.log('new user connected');
+
+    socket.on('disconnect', ()=>{
+        console.log('user disconnected');
+    });
+});
+
+
+
+server.listen(port, (err, success) =>{
     console.log(`Listening on port ${port}`);
 });
