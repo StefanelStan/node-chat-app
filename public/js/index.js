@@ -12,3 +12,6 @@ socket.on('newMessage', function(newMessage){
     console.log('Client browser will render new message', newMessage);
 });
 
+socket.on('welcomeMessage', function(newMessage){
+    console.log('Client browser will render new message', newMessage);
+});
