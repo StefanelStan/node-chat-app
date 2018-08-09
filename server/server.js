@@ -43,6 +43,10 @@ io.on('connection', (socket) =>{
         //console.log(socket);
     });
 
+    socket.on('locationMessage', (locationMessage) => {
+        io.emit('newMessage', generateMessage(locationMessage.from, `Lat:${locationMessage.lat} \ Lng:${locationMessage.lng}`));
+    });
+
     socket.on('disconnect', ()=>{
         console.log('user disconnected');
     });
