@@ -10,8 +10,29 @@ socket.on('disconnect', function() {
 
 socket.on('newMessage', function(newMessage){
     console.log('Client browser will render new message', newMessage);
+    var li = jQuery('<li></li>');
+    li.text(`From: ${newMessage.from} -> ${newMessage.text} at ${newMessage.createdAt}`);
+
+    jQuery('#messages').append(li);
 });
 
 socket.on('welcomeMessage', function(newMessage){
     console.log('Client browser will render new message', newMessage);
 });
+
+// socket.emit('createMessage', 
+//             {from: 'Frank',text: 'Hi'}, 
+//             function(status){
+//                 console.log(status);
+//             });
+         
+jQuery('#message-form').on('submit', function(e){
+    e.preventDefault();
+
+    socket.emit('createMessage', {
+        from: socket.id,
+        text: jQuery('[name=message]').val()
+    }, function(){
+
+    });
+});            
