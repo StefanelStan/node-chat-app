@@ -16,8 +16,13 @@ socket.on('newMessage', function(newMessage){
     jQuery('#messages').append(li);
 });
 
-socket.on('welcomeMessage', function(newMessage){
-    console.log('Client browser will render new message', newMessage);
+socket.on('newLocationMessage', function(newLocationMessage){
+    var li = jQuery('<li></li>');
+    var a = jQuery('<a target="_blank">My current location</a>');
+    li.text(`From: ${newLocationMessage.from}: `);
+    a.attr('href', newLocationMessage.url)
+    li.append(a);
+    jQuery('#messages').append(li);
 });
 
 // socket.emit('createMessage', 

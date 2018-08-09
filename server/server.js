@@ -2,7 +2,7 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
-const {generateMessage} = require('./utils/message.js');
+const {generateMessage, generateLocationMessage} = require('./utils/message.js');
 
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
@@ -44,7 +44,7 @@ io.on('connection', (socket) =>{
     });
 
     socket.on('locationMessage', (locationMessage) => {
-        io.emit('newMessage', generateMessage(locationMessage.from, `Lat:${locationMessage.lat} \ Lng:${locationMessage.lng}`));
+        io.emit('newLocationMessage', generateLocationMessage(locationMessage.from, locationMessage.lat, locationMessage.lng));
     });
 
     socket.on('disconnect', ()=>{
