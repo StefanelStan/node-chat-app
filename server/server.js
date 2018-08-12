@@ -38,15 +38,12 @@ io.on('connection', (socket) =>{
         callback();
     });
 
-    socket.on('createMessage', (createMessage, callback) =>{
-        console.log('Server received createMessage', createMessage);
-        
-        
-        io.emit('newMessage', generateMessage(createMessage.from, createMessage.text));
-        
-        //callback('This is from the server! I told everyone that you joined!');
-        callback();
-        
+    socket.on('createMessage', (createMessage, callback) => {
+        var user = users.getUser(socket.id);
+        if (user && isRealString(createMessage.text)) {
+            io.to(user.room).emit('newMessage', generateMessage(user.name, createMessage.text));
+            callback();
+        }
         /*
         io.emit('newMessage', {
             from: createMessage.from,
@@ -54,11 +51,14 @@ io.on('connection', (socket) =>{
             createdAt: new Date().getTime()
         });
         */
-        //console.log(socket);
     });
 
     socket.on('locationMessage', (locationMessage, callback) => {
-        io.emit('newLocationMessage', generateLocationMessage(locationMessage.from, locationMessage.lat, locationMessage.lng));
+        var user = users.getUser(socket.id);
+        if (user) {
+            io.to(user.room)
+              .emit('newLocationMessage', generateLocationMessage(user.name, locationMessage.lat, locationMessage.lng));
+        }
     });
 
     socket.on('disconnect', ()=>{

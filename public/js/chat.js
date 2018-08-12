@@ -95,7 +95,7 @@ jQuery('#message-form').on('submit', function(e){
 
     let messageTextBox = jQuery('[name=message]');
     socket.emit('createMessage', {
-        from: socket.id,
+        //from: socket.id,
         text: messageTextBox.val()
     }, function(){
         messageTextBox.val('');
@@ -113,7 +113,7 @@ locationButton.on('click', function () {
         console.log(position);
         locationButton.removeAttr('disabled').text('Send location');
         socket.emit('locationMessage', {
-            from: socket.id,
+            //from: socket.id,
             lat: position.coords.latitude,
             lng: position.coords.longitude
         });
