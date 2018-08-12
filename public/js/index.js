@@ -11,7 +11,7 @@ socket.on('disconnect', function() {
 socket.on('newMessage', function(newMessage){
     console.log('Client browser will render new message', newMessage);
     var li = jQuery('<li></li>');
-    li.text(`From: ${newMessage.from} -> ${newMessage.text} at ${newMessage.createdAt}`);
+    li.text(`From: ${newMessage.from} -> ${newMessage.text} at ${formatTimestamp(newMessage.createdAt)}`);
 
     jQuery('#messages').append(li);
 });
@@ -22,6 +22,7 @@ socket.on('newLocationMessage', function(newLocationMessage){
     li.text(`From: ${newLocationMessage.from}: `);
     a.attr('href', newLocationMessage.url)
     li.append(a);
+    li.append(` at ${formatTimestamp(newLocationMessage.createdAt)}`);
     jQuery('#messages').append(li);
 });
 
@@ -63,3 +64,7 @@ locationButton.on('click', function () {
         locationButton.removeAttr('disabled').text('Send location');
     });
 });
+
+function formatTimestamp(timestamp){
+    return moment(timestamp).format('h:mm a');
+}
