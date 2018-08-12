@@ -1,16 +1,17 @@
-var expect = require('chai').expect;
-var {isRealString} = require ('./validation.js');
+const expect = require('chai').expect;
+const {isRealString} = require('./validation.js');
 
 describe('isRealString tests', () =>{
-    if('should reject non string values', () =>{
-        expect(isRealString(24)).to.be.false;
+    it('should reject non string values', () =>{
+        let result = isRealString(24);
+        expect(result).to.be.false;
     });
 
-    if('should reject string with white spaces only', () =>{
+    it('should reject string with white spaces only', () =>{
         expect(isRealString('     ')).to.be.false;
     });
 
-    if('should allow string with white spaces chars', () =>{
+    it('should allow string with white spaces chars', () =>{
         expect(isRealString('  LOTR')).to.be.true;
     });
 });

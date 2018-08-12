@@ -36,6 +36,18 @@ socket.on('disconnect', function() {
     console.log('disconnected from server');
 });
 
+socket.on('updateUserList', function(users){
+    //console.log('Users List', users);
+    var ol = jQuery('<ol></ol>');
+
+    users.forEach(function(user){
+        ol.append(jQuery('<li></li>').text(user));
+    });
+    
+    jQuery('#users').html(ol);
+});
+
+
 socket.on('newMessage', function(newMessage){
     
     var template = jQuery('#message-template').html();
