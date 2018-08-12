@@ -32,7 +32,9 @@ io.on('connection', (socket) =>{
         
         io.emit('newMessage', generateMessage(createMessage.from, createMessage.text));
         
-        callback('This is from the server! I told everyone that you joined!');
+        //callback('This is from the server! I told everyone that you joined!');
+        callback();
+        
         /*
         io.emit('newMessage', {
             from: createMessage.from,
@@ -43,7 +45,7 @@ io.on('connection', (socket) =>{
         //console.log(socket);
     });
 
-    socket.on('locationMessage', (locationMessage) => {
+    socket.on('locationMessage', (locationMessage, callback) => {
         io.emit('newLocationMessage', generateLocationMessage(locationMessage.from, locationMessage.lat, locationMessage.lng));
     });
 
